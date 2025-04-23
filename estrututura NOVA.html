@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calculadora de Tempo</title>
+  <style>
+    body {
+      background-color: #f0f4f8;
+      font-family: Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    label {
+      display: block;
+      margin: 15px 0 5px;
+      font-weight: bold;
+      color: #555;
+    }
+
+    input[type="date"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    #resultado {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #222;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Calculadora de Tempo</h1>
+
+    <label for="data1">Data Inicial:</label>
+    <input type="date" id="data1">
+
+    <label for="data2">Data Final:</label>
+    <input type="date" id="data2">
+
+    <button onclick="calcularTempo()">Calcular Diferença</button>
+
+    <p id="resultado"></p>
+  </div>
+
+  <script>
+    function calcularTempo() {
+      const data1 = new Date(document.getElementById('data1').value);
+      const data2 = new Date(document.getElementById('data2').value);
+
+      if (!data1 || !data2 || isNaN(data1) || isNaN(data2)) {
+        document.getElementById('resultado').innerText = "Por favor, insira duas datas válidas.";
+        return;
+      }
+
+      let d1 = new Date(data1);
+      let d2 = new Date(data2);
+
+      if (d2 < d1) {
+        [d1, d2] = [d2, d1];
+      }
+
+      let anos = d2.getFullYear() - d1.getFullYear();
+      let meses = d2.getMonth() - d1.getMonth();
+      let dias = d2.getDate() - d1.getDate();
+
+      if (dias < 0) {
+        meses -= 1;
+        let ultimoDiaDoMesAnterior = new Date(d2.getFullYear(), d2.getMonth(), 0).getDate();
+        dias += ultimoDiaDoMesAnterior;
+      }
+
+      if (meses < 0) {
+        anos -= 1;
+        meses += 12;
+      }
+
+      document.getElementById('resultado').innerText =
+        `A diferença é de ${anos} ano(s), ${meses} mês(es) e ${dias} dia(s).`;
+    }
+  </script>
+</body>
+</html>
